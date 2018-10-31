@@ -57,8 +57,6 @@ j+="translateY("+(F[0].clientHeight-item_width)/2+"px)"),i=n[f(p)],i.style[z]=j+
  */
 
 $(document).ready(function() {
-    $('#category-collection > .category:first-child, #exception-collection > .exception:first-child, #test-collection > .test:first-child, #author-collection > .author:first-child').click();
-
     $('#test-collection .test').dynamicTestSearch('#test-view #search-tests');
 	$('#category-collection .category').dynamicTestSearch('#category-view #search-tests');
     $('#author-collection .author').dynamicTestSearch('#author-view #search-tests');
@@ -273,6 +271,7 @@ $('#toggle-test-view-charts').click(function() {
 
 /* -- [ test ] -- */
 $('.test').click(function() {
+	$('#step-filters span').removeClass('border-bottom-highlight');
     showCollectionElement('test', $(this));
     $('.subview-right img').each(function() {
     	$(this).attr('src', $(this).attr('data-src'));
@@ -358,8 +357,6 @@ $('.view-summary').click(function(evt) {
 	}
 });
 
-/* -- [ tests-toggle ] -- */$('#tests-toggle li').click(function() {    var t = $(this),        status = t.attr('status'),        clear = t.attr('clear');        if (clear || status == 'clear')         $('.test').addClass('displayed').removeClass('hide');    else {        $('.test,.leaf').addClass('hide').removeClass('displayed');          $('.test:has(.leaf.' + status + '), .test.' + status).removeClass('hide').addClass('displayed');  $('.leaf.' + status).removeClass('hide').addClass('displayed');    }        $('.test.displayed').first().click();});
-
 /* -- [ tests-toggle ] -- */
 $('#tests-toggle li').click(function() {
     var t = $(this),
@@ -414,21 +411,15 @@ $('#step-filters span').click(function() {
     var t = $(this),
         status = t.attr('status');
     
-    if ($('#step-filters span').hasClass('border-bottom-highlight')) {
-        $('#test-view .subview-right tr.log').filter(function() {
-            return ($(this).attr('status') === status);
-        }).removeClass('hide');
+    if (t.hasClass('border-bottom-highlight')) {
+        t.removeClass('border-bottom-highlight');
+        $('#test-view .subview-right tr.log').removeClass('hide');
     } else {
+        $('#step-filters span').removeClass('border-bottom-highlight');
+        t.addClass('border-bottom-highlight');
         $('#test-view .subview-right tr.log').addClass('hide').filter(function() {
             return ($(this).attr('status') === status);
         }).removeClass('hide');
-    }
-    
-    t.addClass('border-bottom-highlight');
-
-    if (status === 'clear') {
-        $('#step-filters span').removeClass('border-bottom-highlight');
-        $('#test-view .subview-right tr.log').removeClass('hide');
     }
 });
 
@@ -489,57 +480,3 @@ function drawLegend(chart, id) {
 	Chart.helpers.addEvent(legendHolder.firstChild, 'mouseout', function() { chart.draw(); });
 	$('#' + id).after(legendHolder.firstChild);
 }
-
-/* -- [ parent chart ] -- */
-function drawParentChart() {
-	var data = [
-		{ value: statusGroup.passParent, color: '#00af00', highlight: '#32bf32', label: 'Pass' },
-		{ value: statusGroup.failParent, color:'#F7464A', highlight: '#FF5A5E', label: 'Fail' },
-		{ value: statusGroup.fatalParent, color:'#8b0000', highlight: '#a23232', label: 'Fatal' },
-		{ value: statusGroup.errorParent, color:'#ff6347', highlight: '#ff826b', label: 'Error' },
-		{ value: statusGroup.warningParent, color: '#FDB45C', highlight: '#FFC870', label: 'Warning' },
-		{ value: statusGroup.skipParent, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' }
-	];
-		
-	/*var ctx = $('#parent-analysis').get(0).getContext('2d');
-	testChart = new Chart(ctx).Doughnut(data, options);
-	drawLegend(testChart, 'parent-analysis');*/
-}; drawParentChart();
-
-/* -- [ children chart ] -- */
-(function drawChildChart() {
-	var data = [
-		{ value: statusGroup.passChild, color: '#00af00', highlight: '#32bf32', label: 'Pass' },
-		{ value: statusGroup.failChild, color:'#F7464A', highlight: '#FF5A5E', label: 'Fail' },
-		{ value: statusGroup.fatalChild, color:'#8b0000', highlight: '#a23232', label: 'Fatal' },
-		{ value: statusGroup.errorChild, color:'#ff6347', highlight: '#ff826b', label: 'Error' },
-		{ value: statusGroup.warningChild, color: '#FDB45C', highlight: '#FFC870', label: 'Warning' },
-		{ value: statusGroup.skipChild, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' },
-        { value: statusGroup.infoChild, color: '#46BFBD', highlight: '#5AD3D1', label: 'Info' }
-	];
-	
-    if ($('#child-analysis').length > 0) {
-	    var ctx = $('#child-analysis').get(0).getContext('2d');
-	    stepChart = new Chart(ctx).Doughnut(data, options);
-	    drawLegend(stepChart, 'child-analysis');
-    }
-})();
-
-/* -- [ grand-children chart ] -- */
-(function drawChildChart() {
-	var data = [
-		{ value: statusGroup.passGrandChild, color: '#00af00', highlight: '#32bf32', label: 'Pass' },
-		{ value: statusGroup.failGrandChild, color:'#F7464A', highlight: '#FF5A5E', label: 'Fail' },
-		{ value: statusGroup.fatalGrandChild, color:'#8b0000', highlight: '#a23232', label: 'Fatal' },
-		{ value: statusGroup.errorGrandChild, color:'#ff6347', highlight: '#ff826b', label: 'Error' },
-		{ value: statusGroup.warningGrandChild, color: '#FDB45C', highlight: '#FFC870', label: 'Warning' },
-		{ value: statusGroup.skipGrandChild, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' },
-        { value: statusGroup.infoGrandChild, color: '#46BFBD', highlight: '#5AD3D1', label: 'Info' }
-	];
-	
-    if ($('#grandchild-analysis').length > 0) {
-        var ctx = $('#grandchild-analysis').get(0).getContext('2d');
-        stepChart = new Chart(ctx).Doughnut(data, options);
-        drawLegend(stepChart, 'grandchild-analysis');
-    }
-})();
