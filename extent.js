@@ -501,9 +501,9 @@ function drawParentChart() {
 		{ value: statusGroup.skipParent, color: '#1e90ff', highlight: '#4aa6ff', label: 'Skip' }
 	];
 		
-	var ctx = $('#parent-analysis').get(0).getContext('2d');
+	/*var ctx = $('#parent-analysis').get(0).getContext('2d');
 	testChart = new Chart(ctx).Doughnut(data, options);
-	drawLegend(testChart, 'parent-analysis');
+	drawLegend(testChart, 'parent-analysis');*/
 }; drawParentChart();
 
 /* -- [ children chart ] -- */
