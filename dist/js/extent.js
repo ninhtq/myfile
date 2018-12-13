@@ -203,7 +203,7 @@ $('#theme-selector').click(function() {
 
         ct.find('.view').css({'height':($(window).height() - 50 - chartHeight)+'px'});
         
-        ct.find('.subview-left, .subview-right').css({'height':($(window).height() - 92 - chartHeight)+'px'});
+        ct.find('.subview-left, .subview-right').css({'height':($(window).height() - 92 - 35 - chartHeight)+'px'});
         ct.find('.subview-left .view-summary, .subview-right .view-summary').css({'height':($(window).height() - 110 - chartHeight)+'px'});
         
         if ($(window).width() < 992) {
