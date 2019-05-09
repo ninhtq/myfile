@@ -364,11 +364,10 @@ $('#tests-toggle li').click(function() {
         clear = t.attr('clear');
     
     if (clear || status == 'clear') 
-        $('.test,.leaf').addClass('displayed').removeClass('hide');
+        $('.test').addClass('displayed').removeClass('hide');
     else {
-        $('.test,.leaf').addClass('hide').removeClass('displayed');
-        $('.test:has(.leaf.' + status + '), .test.' + status).removeClass('hide').addClass('displayed');
-        $('.leaf.' + status).removeClass('hide').addClass('displayed');
+        $('.test').addClass('hide').removeClass('displayed');
+        $('.test.' + status).removeClass('hide').addClass('displayed');
     }
     
     $('.test.displayed').first().click();
