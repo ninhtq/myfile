@@ -433,18 +433,26 @@ $.fn.dynamicTestSearch = function(id){
     var searchBox = $(id);
     
     searchBox.off('keyup').on('keyup', function() {
-        pattern = RegExp(searchBox.val(), 'gi');
+        searchVal = searchBox.val()
+        searchVal = searchVal.replace(/&/g, '&amp;')
+        searchVal = searchVal.replace(/</g, '&lt;')
+        searchVal = searchVal.replace(/>/g, '&gt;')
         
+        pattern = RegExp(searchVal, 'gi');
         if (searchBox.val() == '') {
             target.removeClass('hide');
-        }
-        else {
-            target.addClass('hide').each(function() {
+        } else {
+            target.addClass('hide').removeClass('displayed').each(function() {
                 var t = $(this);
                 if (pattern.test(t.html())) {
-                    t.removeClass('hide');
+                    t.addClass('displayed').removeClass('hide');
                 }
             });
+        }
+        if ($('.test.displayed').length == 0) {
+            $('.subview-right .view-summary').html('')
+        } else {
+            $('.test.displayed').first().click();
         }
     });
     
