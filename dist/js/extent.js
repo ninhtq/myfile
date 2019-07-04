@@ -55,7 +55,7 @@ $(document).ready(function() {
 	$('#category-collection .category').dynamicTestSearch('#category-view #search-tests');
     $('#author-collection .author').dynamicTestSearch('#author-view #search-tests');
 	$('#exception-collection .exception').dynamicTestSearch('#exception-view #search-tests');  
-	$('.search-result').html('* About: ' + $('.test.displayed').length + ' result(s)');
+	// $('.search-result').html('* About: ' + $('.test.displayed').length + ' result(s)');
 });
 
 /* -- [ sidenav - toggle views ] -- */
